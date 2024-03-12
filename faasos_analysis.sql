@@ -126,23 +126,15 @@ group by 1
 --we can also use avg function
 
 
---select driver_id,round(sum(diff)/count(driver_id),2) avrg from
---(
---select *,row_number() over(partition by order_id ) rnk from
---(
---select co.*,do2.driver_id,do2.pickup_time,do2.duration,extract(minute from (pickup_time - order_date)) diff
---from faasos_projects.customer_orders co 
---join faasos_projects.driver_order do2 on co.order_id  = do2.order_id 
---where do2.pickup_time is not null)a
---) where rnk = 1
---group by 1;
---
-
--- is there any relationship between the number of rolls and how long the order takes to repare
-
---select * from faasos_projects.customer_orders co ;
---select * from faasos_projects.driver_order do2 ;
---select * from faasos_projects.customer_orders co  ;
---
+select driver_id,round(sum(diff)/count(driver_id),2) avrg from
+(
+select *,row_number() over(partition by order_id ) rnk from
+(
+select co.*,do2.driver_id,do2.pickup_time,do2.duration,extract(minute from (pickup_time - order_date)) diff
+from faasos_projects.customer_orders co 
+join faasos_projects.driver_order do2 on co.order_id  = do2.order_id 
+where do2.pickup_time is not null)a
+) where rnk = 1
+group by 1;
 
 
